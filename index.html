@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Game Loop</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="res/favicon-32x32.png"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="index.js"></script>
+  </head>
+
+  <body>
+    <header class="std-edges">
+      <h1>
+        Browser Game Loop
+      </h1>
+    </header>
+    <div class="main-content">
+      <div class="box std-edges half">
+        <h3>Reported Events:</h3>
+        <div id="eventDropArea"></div>
+      </div>
+      <div class="box std-edges half right-half">
+        <h3>Event Creation:</h3>
+        <!-- Add game event and return false to prevent page refresh (default behavior) -->
+        <form
+          onsubmit="addGameEvent(this.eventText.value, this.interval.value, this.count.value); return false;"
+        >
+          <div class="input-element">
+            Name: <input type="text" id="eventText" />
+          </div>
+          <div class="input-element">
+            Interval: <input type="text" id="interval" />
+          </div>
+          <div class="input-element">
+            # Times: <input type="text" id="count" />
+          </div>
+          <div class="input-button">
+            <input type="submit" value="Add Event" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <footer class="std-edges">
+      <h4>
+        Created for CS5410
+      </h4>
+    </footer>
+  </body>
+</html>
