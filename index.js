@@ -91,7 +91,7 @@ function edgeExists(edges, edge) {
   return edges.has(JSON.stringify(edge)) || edges.has(JSON.stringify({to: edge.from, from: edge.to}));
 }
 
-console.log(generateRandomMaze(3));
+//console.log(generateRandomMaze(3));
 
 function render() {
   for (let i = 0; i < gameEvents.length; ++i) {
@@ -136,12 +136,23 @@ function gameLoop(elapsedTime) {
   requestAnimationFrame(gameLoop);
 }
 
-function main() {
-  gameLoop(performance.now());
+function setUpSizing() {
+  let windowWidth = window.innerWidth;
+  let windowHeight = window.innerHeight;
+  document.getElementById("game-canvas").style.width = windowHeight + "px";
+  document.getElementById("game-canvas").style.height = windowHeight + "px";
+  let a = (windowWidth - windowHeight) / 2;
+  document.getElementById("left").style.width = a + "px";
+  document.getElementById("right").style.width = a + "px";
 }
 
-// if (document.readyState === 'loading') {
-//   document.addEventListener('DOMContentLoaded', main);
-// } else {
-//   main();
-// }
+function main() {
+  setUpSizing();
+  //gameLoop(performance.now());
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', main);
+} else {
+  main();
+}

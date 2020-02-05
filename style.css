@@ -4,61 +4,25 @@
 }
 
 body {
-  background-color: #66ccff;
+  background-color: #303030;
 }
 
-header,
-footer {
-  background-color: #0078c0;
-  width: auto;
+.segs {
+  float: left;
 }
 
-h4,
-h1 {
-  text-align: center;
+#left {
+  background-color: red;
 }
 
-.std-edges {
-  margin: 0.4vw;
-  padding: 0.4vw;
-  border-width: 0.4vw;
-  border-color: black;
-  border-style: solid;
+#middle {
+  background-color: yellow;
 }
 
-.main-content {
-  box-sizing: border-box;
-  overflow: hidden;
-  text-align: center;
-  width: 100%;
+#right {
+  background-color: blue;
 }
 
-.half {
-  box-sizing: border-box;
-  background-color: white;
-  margin: 0;
-  margin-left: 0.4vw;
-  text-align: center;
-  vertical-align: top;
-  display: inline-block;
-}
-
-.right-half {
-  margin-right: 0.4vw;
-}
-
-.newline {
-  white-space: nowrap;
-  clear: both;
-  display: inline-block;
-  width: 100%;
-}
-
-.input-element {
-  margin: 0.2vw;
-  text-align: right;
-}
-
-.input-button {
-  margin: 0.2vw;
+canvas {
+  background-color: black;
 }

@@ -14,41 +14,16 @@
   </head>
 
   <body>
-    <header class="std-edges">
-      <h1>
-        Browser Game Loop
-      </h1>
-    </header>
-    <div class="main-content">
-      <div class="box std-edges half">
-        <h3>Reported Events:</h3>
-        <div id="eventDropArea"></div>
-      </div>
-      <div class="box std-edges half right-half">
-        <h3>Event Creation:</h3>
-        <!-- Add game event and return false to prevent page refresh (default behavior) -->
-        <form
-          onsubmit="addGameEvent(this.eventText.value, this.interval.value, this.count.value); return false;"
-        >
-          <div class="input-element">
-            Name: <input type="text" id="eventText" />
-          </div>
-          <div class="input-element">
-            Interval: <input type="text" id="interval" />
-          </div>
-          <div class="input-element">
-            # Times: <input type="text" id="count" />
-          </div>
-          <div class="input-button">
-            <input type="submit" value="Add Event" />
-          </div>
-        </form>
-      </div>
+    <div id="left" class="segs"></div>
+    <div id="middle" class="segs">
+      <canvas id="game-canvas"></canvas>
     </div>
-    <footer class="std-edges">
-      <h4>
-        Created for CS5410
-      </h4>
-    </footer>
+    <div id="right" class="segs">
+      <h5>Board Size</h5>
+      <h5>5x5</h5>
+      <h5>10x10</h5>
+      <h5>15x15</h5>
+      <h5>20x20</h5>
+    </div>
   </body>
 </html>
