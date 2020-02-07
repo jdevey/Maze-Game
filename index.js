@@ -139,8 +139,8 @@ function gameLoop(elapsedTime) {
 function setUpSizing() {
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
-  document.getElementById("game-canvas").style.width = windowHeight + "px";
-  document.getElementById("game-canvas").style.height = windowHeight + "px";
+  document.getElementById("game-canvas").style.width = windowHeight+ "px";
+  document.getElementById("game-canvas").style.height = windowHeight+ "px";
   let a = (windowWidth - windowHeight) / 2;
   document.getElementById("left").style.width = a + "px";
   document.getElementById("right").style.width = a + "px";
