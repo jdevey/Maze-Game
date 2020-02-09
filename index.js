@@ -136,14 +136,21 @@ function gameLoop(elapsedTime) {
   requestAnimationFrame(gameLoop);
 }
 
+function startNewGame() {
+  size = parseInt(document.querySelector('input[name="size"]:checked').value);
+  console.log("Size: " + size);
+}
+
 function setUpSizing() {
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
-  document.getElementById("game-canvas").style.width = windowHeight+ "px";
-  document.getElementById("game-canvas").style.height = windowHeight+ "px";
+  document.getElementById("middle").style.width = windowHeight+ "px";
+  document.getElementById("middle").style.height = windowHeight+ "px";
   let a = (windowWidth - windowHeight) / 2;
   document.getElementById("left").style.width = a + "px";
+  document.getElementById("left").style.height = windowHeight+ "px";
   document.getElementById("right").style.width = a + "px";
+  document.getElementById("right").style.height = windowHeight+ "px";
 }
 
 function main() {
