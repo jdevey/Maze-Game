@@ -1,54 +1,23 @@
-class CustomSet {
-  constructor() {
-    this.set = new Set();
-  }
-
-  add(o) {
-    this.set.add(JSON.stringify(o));
-  }
-
-  delete(o) {
-    this.set.delete(JSON.stringify(o));
-  }
-
-  has(o) {
-    return this.set.has(JSON.stringify(o));
-  }
-}
-
-class Edge {
-  constructor(to, from) {
-    this.to = to;
-    this.from = from;
-  }
-}
-
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  equals(point) {
-    return this.x == point.x && this.y == point.y;
-  }
-}
-
 class GameState {
   constructor(edges, size) {
     // Constant or precomputed values
     this.edges = edges;
     this.size = size;
-    this.finishPaths = computePathsToFinish();
-    this.perfectPath = computePerfectPathSquares();
-    this.oneOffPath = computeOneOffPathSquares();
+    this.finishPath = this.computePathsToFinish();
+    this.perfectPath = this.computePerfectPathSquares();
+    this.oneOffPath = this.computeOneOffPathSquares();
 
     // State
     this.pos = new Point(0, 0);
-    this.secondsElapsed = 0;
+    this.startTime = performance.now();
+    this.currentTime = this.gameStartTime;
     this.score = 0;
     this.traveledSquares = new CustomSet();
     this.traveledSquares.add(new Point(0, 0));
+    this.hintToggled = false;
+    this.breadcrumbsToggled = false;
+    this.pathToggled = false;
+    this.gameOver = false;
   }
 
   travelToSquare(x, y) {
@@ -73,7 +42,7 @@ class GameState {
     let finish = new Point(-1, -1);
     while (!curr.equals(finish)) {
       finishPath.add(curr);
-      curr = finishPaths[curr.y][curr.x];
+      curr = this.finishPaths[curr.y][curr.x];
     }
     return finishPath;
   }
@@ -120,7 +89,7 @@ class GameState {
     let finish = new Point(-1, -1);
     while (!curr.equals(finish)) {
       perfectSquares.add(curr);
-      curr = finishPaths[curr.y][curr.x];
+      curr = this.finishPath[curr.y][curr.x];
     }
     return perfectSquares;
   }
@@ -132,7 +101,7 @@ class GameState {
     for (let i = 0; i < size; ++i) {
       for (let j = 0; j < size; ++j) {
         let base = new Point(j, i);
-        if (this.perfectSquares.has(base)) {
+        if (this.perfectPath.has(base)) {
           continue;
         }
         for (let k = 0; k < size; ++k) {
@@ -140,7 +109,7 @@ class GameState {
           let newX = i + direc.x;
           let newY = j + direc.y;
           let p = new Point(newX, newY);
-          if (isValidCoord(size, p) && this.perfectSquares.has(p)) {
+          if (isValidCoord(size, p) && this.perfectPath.has(p)) {
             oneOffSquares.add(p);
           }
         }
@@ -160,5 +129,13 @@ class GameState {
     else {
       return BAD_SQUARE_VALUE;
     }
+  }
+
+  getElapsedSeconds() {
+    return Math.floor((this.currentTime - this.startTime) / 1000);
+  }
+
+  endGame() {
+    this.gameOver = true;
   }
 }

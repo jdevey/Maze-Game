@@ -1,25 +1,10 @@
+var shouldStartNewGame = false;
 
-function render() {
-  for (let i = 0; i < gameEvents.length; ++i) {
-    let event = gameEvents[i];
-    let multiple = Math.floor(
-      (event.prevTime - event.origTime) / event.interval
-    );
-    for (
-      let j = multiple + 1;
-      j <= event.count && event.origTime + j * event.interval < event.currTime;
-      ++j
-    ) {
-      let numToDisplay = event.count - j;
-      let text = getTextRep(event.name, numToDisplay);
-      appendEventToList(text);
-      // Scroll whenever a new event is added
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-  }
+function startOver() {
+  shouldStartNewGame = true;
 }
 
-function update(elapsedTime) {
+function update(gameState, elapsedTime) {
   for (let i = gameEvents.length - 1; i > -1; --i) {
     let event = gameEvents[i];
     event.prevTime = event.currTime;
@@ -36,45 +21,36 @@ function update(elapsedTime) {
   }
 }
 
-function gameLoop(elapsedTime) {
-  update(elapsedTime);
-  render();
-  requestAnimationFrame(gameLoop);
-}
-
 function startNewGame() {
+  // TODO show old scores
+
   size = parseInt(document.querySelector('input[name="size"]:checked').value);
-}
+  let edges = generateRandomMaze(size);
+  let gameState = new GameState(edges, size);
 
-function drawMazeLine(context, cellSize, x1, y1, x2, y2) {
-  context.beginPath();
-  context.moveTo(x1 * cellSize, y1 * cellSize);
-  context.lineTo(x2 * cellSize, y2 * cellSize);
-  context.stroke();
-}
+  // Return false so that page does not re-render
+  let endGame = () => false & gameState.endGame();
 
-function renderMazeOutline(context, size, cellSize, edges) {
-  context.save();
-  context.strokeStyle = 'black';
-  context.lineWidth = 4;
-  context.lineCap = 'round';
-  for (let i = 0; i < size; ++i) {
-    for (let j = 0; j < size; ++j) {
-        if (i == 0 || !edgeExists(edges, {to: i * size + j, from: (i - 1) * size + j})) {
-          drawMazeLine(context, cellSize, j, i, j + 1, i);
-        }
-        if (i == size - 1 || !edgeExists(edges, {to: i * size + j, from: (i + 1) * size + j})) {
-          drawMazeLine(context, cellSize, j, i + 1, j + 1, i + 1);
-        }
-        if (j == 0 || !edgeExists(edges, {to: i * size + j, from: i * size + j - 1})) {
-          drawMazeLine(context, cellSize, j, i, j, i + 1);
-        }
-        if (j == size - 1 || !edgeExists(edges, {to: i * size + j, from: i * size + j + 1})) {
-          drawMazeLine(context, cellSize, j + 1, i, j + 1, i + 1);
-        }
+  document.getElementById('size-form').addEventListener('submit', endGame);
+
+  input = new Input();
+
+  gameLoop(performance.now());
+
+  function gameLoop(elapsedTime) {
+    handleInput(gameState);
+    update(gameState, elapsedTime);
+    render(gameState);
+    if (!gameState.gameOver) { // TODO win detection
+      requestAnimationFrame(gameLoop);
     }
   }
-  context.restore();
+
+  // Clean up event listeners
+  document.getElementById('size-form').removeEventListener('submit', endGame);
+  input.removeEventListeners();
+
+  // TODO persist score
 }
 
 function setUpSizing() {
@@ -88,14 +64,9 @@ function setUpSizing() {
 
 function main() {
   setUpSizing();
-  let defaultSize = 10;
-  let edges = generateRandomMaze(defaultSize);
-  let canvas = document.getElementById('game-canvas');
-  let context = canvas.getContext('2d');
-  let size = defaultSize;
-  let cellSize = canvas.width / size;
-  renderMazeOutline(context, defaultSize, cellSize, edges);
-  //gameLoop(performance.now());
+  while (true) {
+    startNewGame();
+  }
 }
 
 if (document.readyState === 'loading') {

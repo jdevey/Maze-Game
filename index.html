@@ -11,9 +11,12 @@
     />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="scripts/Constants.js"></script>
-    <script src="scripts/Utils.js"></script>
-    <script src="scripts/Classes.js"></script>
+    <script src="scripts/UtilFuncs.js"></script>
+    <script src="scripts/UtilClasses.js"></script>
+    <script src="scripts/Input.js"></script>
+    <script src="scripts/GameState.js"></script>
     <script src="scripts/MazeCreation.js"></script>
+    <script src="scripts/Rendering.js"></script>
     <script src="scripts/index.js"></script>
   </head>
 
@@ -36,13 +39,17 @@
     <!-- Right segment -->
     <div class="segs left-or-right right">
       <div id="sizes" class="center-container">
-        <form onsubmit="startNewGame(this.value); return false;" id="size-form">
+        <form id="size-form">
           <div class="size-item">
-            <input type="radio" name="size" value="5" />
+            <input type="radio" name="size" value="3" checked/>
+            <p class="size">2 x 2</p>
+          </div>
+          <div class="size-item">
+            <input type="radio" name="size" value="5"/>
             <p class="size">5 x 5</p>
           </div>
           <div class="size-item">
-            <input type="radio" name="size" value="10" checked />
+            <input type="radio" name="size" value="10" />
             <p class="size">10 x 10</p>
           </div>
           <div class="size-item">

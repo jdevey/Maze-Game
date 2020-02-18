@@ -2,6 +2,7 @@ function swap(a, b) {
   [a, b] = [b, a];
 }
 
+// Kruskal's algorithm
 function getRep(reps, x) {
   while (x != reps[x]) {
     x = reps[x];
@@ -9,10 +10,12 @@ function getRep(reps, x) {
   return x;
 }
 
+// Kruskal's algorithm
 function same(reps, a, b) {
   return getRep(reps, a) == getRep(reps, b);
 }
 
+// Kruskal's algorithm
 function join(sizes, reps, a, b) {
   a = getRep(reps, a);
   b = getRep(reps, b);
@@ -23,6 +26,7 @@ function join(sizes, reps, a, b) {
   sizes[a] += sizes[b];
 }
 
+// Kruskal's algorithm
 function makeRandomEdge(from, to) {
   return {
     from: from,
@@ -31,6 +35,7 @@ function makeRandomEdge(from, to) {
   };
 }
 
+// Kruskal's algorithm
 function fillGraph(n, adj) {
   for (let i = 0; i < n; ++i) {
     for (let j = 0; j < n; ++j) {
@@ -46,6 +51,7 @@ function fillGraph(n, adj) {
 
 // Return an adjacency matrix denoting whether each pair of adjacent cells are divided by an edge
 // Given n rows and m columns, the cell with coordinates (i, j) has id i * n + j
+// Uses Kruskal's algorithm
 function generateRandomMaze(n) {
   let total = n * n;
   let adj = [];
