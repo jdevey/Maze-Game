@@ -1,11 +1,3 @@
-const direcs = [
-  {x: 0, y: 1},
-  {x: 1, y: 0},
-  {x: 0, y: -1},
-  {x: -1, y: 0}
-]
-
-//console.log(generateRandomMaze(3));
 
 function render() {
   for (let i = 0; i < gameEvents.length; ++i) {
@@ -52,7 +44,6 @@ function gameLoop(elapsedTime) {
 
 function startNewGame() {
   size = parseInt(document.querySelector('input[name="size"]:checked').value);
-  console.log('Size: ' + size);
 }
 
 function drawMazeLine(context, cellSize, x1, y1, x2, y2) {

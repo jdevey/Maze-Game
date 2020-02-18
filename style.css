@@ -23,7 +23,7 @@ canvas {
 
 .segs {
   float: left;
-  background-color: #303030;
+  background-color: #202020;
 }
 
 .left-or-right {
@@ -87,10 +87,10 @@ canvas {
   display: inline;
 }
 
-.size-item {
-  /* align-items: center;
-  display: block; */
-}
+/* .size-item {
+  align-items: center;
+  display: block;
+} */
 
 #size-form {
   margin: 10%;

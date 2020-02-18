@@ -23,21 +23,6 @@ function join(sizes, reps, a, b) {
   sizes[a] += sizes[b];
 }
 
-function fillGraph2(n, adj) {
-  for (let i = 0; i < n; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (i > 0) {
-        adj[i * n + j][(i - 1) * n + j] = true;
-        adj[(i - 1) * n + j][i * n + j] = true;
-      }
-      if (j > 0) {
-        adj[i * n + j][i * n + j - 1] = true;
-        adj[i * n + j - 1][i * n + j] = true;
-      }
-    }
-  }
-}
-
 function makeRandomEdge(from, to) {
   return {
     from: from,
@@ -51,11 +36,9 @@ function fillGraph(n, adj) {
     for (let j = 0; j < n; ++j) {
       if (i > 0) {
         adj.push(makeRandomEdge(i * n + j, (i - 1) * n + j));
-        // adj.push(makeRandomEdge((i - 1) * n + j, i * n + j));
       }
       if (j > 0) {
         adj.push(makeRandomEdge(i * n + j, i * n + j - 1));
-        // adj.push(makeRandomEdge(i * n + j - 1, i * n + j));
       }
     }
   }
@@ -76,21 +59,19 @@ function generateRandomMaze(n) {
     reps.push(i);
   }
 
-  edges = new Set();
+  edges = new CustomSet();
 
   for (let i = 0; i < adj.length; ++i) {
     if (!same(reps, adj[i].to, adj[i].from)) {
       join(sizes, reps, adj[i].to, adj[i].from);
-      edges.add(JSON.stringify({ to: adj[i].to, from: adj[i].from }));
+      edges.add(new Edge(adj[i].to, adj[i].from));
     }
   }
 
   return edges;
 }
 
+// Must try two possibilities since edges are bi-directional
 function edgeExists(edges, edge) {
-  return (
-    edges.has(JSON.stringify(edge)) ||
-    edges.has(JSON.stringify({ to: edge.from, from: edge.to }))
-  );
+  return edges.has(edge) || edges.has(new Edge(edge.from, edge.to));
 }
