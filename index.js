@@ -1,3 +1,10 @@
+const direcs = [
+  {x: 0, y: 1},
+  {x: 1, y: 0},
+  {x: 0, y: -1},
+  {x: -1, y: 0}
+]
+
 function swap(a, b) {
   [a, b] = [b, a];
 }
@@ -62,6 +69,7 @@ function fillGraph(n, adj) {
 }
 
 // Return an adjacency matrix denoting whether each pair of adjacent cells are divided by an edge
+// Given n rows and m columns, the cell with coordinates (i, j) has id i * n + j
 function generateRandomMaze(n) {
   let total = n * n;
   let adj = [];
@@ -144,6 +152,14 @@ function startNewGame() {
   console.log('Size: ' + size);
 }
 
+function renderMazeOutline(context, size, cellSize, edges) {
+  for (let i = 0; i < size; ++i) {
+    for (let j = 0; j < size; ++j) {
+
+    }
+  }
+}
+
 function setUpSizing() {
   let { width, height } = document
     .getElementById('canvas-cont')
@@ -155,6 +171,12 @@ function setUpSizing() {
 
 function main() {
   setUpSizing();
+  edges = generateRandomMaze(10);
+  let canvas = document.getElementById('game-canvas');
+  let context = canvas.getContext('2d');
+  let size = edges.length;
+  let cellSize = canvas.width / size;
+  renderMazeOutline(context, size, cellSize, edges);
   //gameLoop(performance.now());
 }
 
