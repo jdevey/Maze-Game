@@ -23,7 +23,7 @@ canvas {
 
 .segs {
   float: left;
-  background-color: #729EA1;
+  background-color: #303030;
 }
 
 .left-or-right {
@@ -59,7 +59,7 @@ canvas {
 }
 
 #score-time-bar {
-  background-color: #E2711D;
+  background-color: #003300;
   height: 5%;
   width: 100%;
   display: flex;
@@ -101,4 +101,8 @@ canvas {
   width: 100%;
   margin: 5%;
   font-size: 4vmin;
+}
+
+#high-scores-text {
+  color: white;
 }
