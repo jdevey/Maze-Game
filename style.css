@@ -23,6 +23,13 @@ body {
   width: 25vw;
 }
 
+.right {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 #middle {
   height: 100vh;
   width: 50vw;
@@ -57,20 +64,32 @@ canvas {
   /* clear: both;
   float: none;*/
   /* display: block; */
+  width: 100%;
 }
 
 .size {
   color: white;
-  font-size: 30px;
+  font-size: 7vmin;
+  text-align: center;
+  display: inline;
 }
 
 .size-item {
-  align-items: center;
-  margin: 2%;
-  padding: 2%;
-  display: block;
+  /* align-items: center;
+  display: block; */
 }
 
 .scoreboard {
   color: white;
+}
+
+#size-form {
+  margin: 10%;
+}
+
+#about {
+  text-align: center;
+  width: 100%;
+  margin: 5%;
+  font-size: 4vmin;
 }

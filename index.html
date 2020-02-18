@@ -16,7 +16,8 @@
   <body>
     <!-- Left segment -->
     <div class="segs left-or-right">
-      <p><br /></p>
+        <h3>High Scores:</h3>
+        <div id="score-drop-area"></div>
     </div>
     <!-- Middle segment -->
     <div id="middle" class="segs">
@@ -29,32 +30,32 @@
       </div>
     </div>
     <!-- Right segment -->
-    <div class="segs left-or-right">
+    <div class="segs left-or-right right">
       <div id="sizes" class="center-container">
         <form onsubmit="startNewGame(this.value); return false;" id="size-form">
           <div class="size-item">
             <input type="radio" name="size" value="5" />
-            <span class="size">5 x 5</span>
+            <p class="size">5 x 5</p>
           </div>
           <div class="size-item">
             <input type="radio" name="size" value="10" checked />
-            <span class="size">10 x 10</span>
+            <p class="size">10 x 10</p>
           </div>
           <div class="size-item">
             <input type="radio" name="size" value="15" />
-            <span class="size">15 x 15</span>
+            <p class="size">15 x 15</p>
           </div>
           <div class="size-item">
             <input type="radio" name="size" value="20" />
-            <span class="size">20 x 20</span>
+            <p class="size">20 x 20</p>
           </div>
-          <div>
+          <div class="center-container">
             <input type="submit" value="Start New Game" class="size-item" />
           </div>
         </form>
       </div>
       <div>
-        <h2 style="color: white">Created by Joel Devey</h2>
+        <h2 style="color: white" id="about">Created by Joel Devey</h2>
       </div>
     </div>
   </body>
