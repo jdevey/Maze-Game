@@ -148,18 +148,9 @@ function setUpSizing() {
   let { width, height } = document
     .getElementById('canvas-cont')
     .getBoundingClientRect();
-  let canvasSize = Math.min(width, height) * 0.9;
+  let canvasSize = Math.min(width, height) * 0.95;
   document.getElementById('game-canvas').style.width = canvasSize + 'px';
   document.getElementById('game-canvas').style.height = canvasSize + 'px';
-  // let windowWidth = window.innerWidth;
-  // let windowHeight = window.innerHeight;
-  // document.getElementById('middle').style.width = windowHeight + 'px';
-  // document.getElementById('middle').style.height = windowHeight + 'px';
-  // let a = (windowWidth - windowHeight) / 2;
-  // document.getElementById('left').style.width = a + 'px';
-  // document.getElementById('left').style.height = windowHeight + 'px';
-  // document.getElementById('right').style.width = a + 'px';
-  // document.getElementById('right').style.height = windowHeight + 'px';
 }
 
 function main() {
