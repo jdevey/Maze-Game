@@ -55,21 +55,32 @@ function startNewGame() {
   console.log('Size: ' + size);
 }
 
+function drawMazeLine(context, cellSize, x1, y1, x2, y2) {
+  context.beginPath();
+  context.moveTo(x1 * cellSize, y1 * cellSize);
+  context.lineTo(x2 * cellSize, y2 * cellSize);
+  context.stroke();
+}
+
 function renderMazeOutline(context, size, cellSize, edges) {
   context.save();
-  context.strokeStyle = 'red';
-  context.strokeWidth = 5;
-  context.strokeRect(20, 20, 100, 100);
+  context.strokeStyle = 'black';
+  context.lineWidth = 4;
+  context.lineCap = 'round';
   for (let i = 0; i < size; ++i) {
     for (let j = 0; j < size; ++j) {
-      // for (let k = 0; k < 4; ++k) {
-        if (i == 0 || edgeExists(edges, {to: i * size + j, from: (i - 1) + j})) {
-          context.beginPath();
-          context.moveTo(j * cellSize, i * cellSize);
-          context.lineTo((j + 1) * cellSize, i * cellSize);
-          context.stroke();
+        if (i == 0 || !edgeExists(edges, {to: i * size + j, from: (i - 1) * size + j})) {
+          drawMazeLine(context, cellSize, j, i, j + 1, i);
         }
-      // }
+        if (i == size - 1 || !edgeExists(edges, {to: i * size + j, from: (i + 1) * size + j})) {
+          drawMazeLine(context, cellSize, j, i + 1, j + 1, i + 1);
+        }
+        if (j == 0 || !edgeExists(edges, {to: i * size + j, from: i * size + j - 1})) {
+          drawMazeLine(context, cellSize, j, i, j, i + 1);
+        }
+        if (j == size - 1 || !edgeExists(edges, {to: i * size + j, from: i * size + j + 1})) {
+          drawMazeLine(context, cellSize, j + 1, i, j + 1, i + 1);
+        }
     }
   }
   context.restore();
@@ -92,8 +103,6 @@ function main() {
   let context = canvas.getContext('2d');
   let size = defaultSize;
   let cellSize = canvas.width / size;
-  context.strokeRect(10, 10, 30, 30);
-  context.strokeStyle = 'black';
   renderMazeOutline(context, defaultSize, cellSize, edges);
   //gameLoop(performance.now());
 }
