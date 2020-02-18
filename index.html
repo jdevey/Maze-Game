@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Game Loop</title>
+    <title>Maze Game</title>
     <link
       rel="icon"
       type="image/png"
@@ -14,21 +14,25 @@
   </head>
 
   <body>
-    <div id="left" class="segs">
+    <!-- Left segment -->
+    <div class="segs left-or-right">
       <p><br /></p>
     </div>
+    <!-- Middle segment -->
     <div id="middle" class="segs">
-      <p>hi</p>
-      <div>
+      <div id="score-time-bar">
         <span class="scoreboard" id="score">Score</span>
         <span class="scoreboard" id="time">Time</span>
       </div>
-      <canvas id="game-canvas"></canvas>
+      <div id="canvas-cont" class="center-container">
+        <canvas id="game-canvas"></canvas>
+      </div>
     </div>
-    <div id="right" class="segs">
-      <div id="sizes">
+    <!-- Right segment -->
+    <div class="segs left-or-right">
+      <div id="sizes" class="center-container">
         <form onsubmit="startNewGame(this.value); return false;" id="size-form">
-          <div class="size-item" style="margin: 50">
+          <div class="size-item">
             <input type="radio" name="size" value="5" />
             <span class="size">5 x 5</span>
           </div>

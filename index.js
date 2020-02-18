@@ -70,7 +70,7 @@ function generateRandomMaze(n) {
   adj.sort((a, b) => a.weight - b.weight);
 
   sizes = new Array(total).fill(1);
-  reps = []
+  reps = [];
   for (let i = 0; i < total; ++i) {
     reps.push(i);
   }
@@ -80,7 +80,7 @@ function generateRandomMaze(n) {
   for (let i = 0; i < adj.length; ++i) {
     if (!same(reps, adj[i].to, adj[i].from)) {
       join(sizes, reps, adj[i].to, adj[i].from);
-      edges.add(JSON.stringify({to: adj[i].to, from: adj[i].from}));
+      edges.add(JSON.stringify({ to: adj[i].to, from: adj[i].from }));
     }
   }
 
@@ -88,7 +88,10 @@ function generateRandomMaze(n) {
 }
 
 function edgeExists(edges, edge) {
-  return edges.has(JSON.stringify(edge)) || edges.has(JSON.stringify({to: edge.from, from: edge.to}));
+  return (
+    edges.has(JSON.stringify(edge)) ||
+    edges.has(JSON.stringify({ to: edge.from, from: edge.to }))
+  );
 }
 
 //console.log(generateRandomMaze(3));
@@ -138,19 +141,25 @@ function gameLoop(elapsedTime) {
 
 function startNewGame() {
   size = parseInt(document.querySelector('input[name="size"]:checked').value);
-  console.log("Size: " + size);
+  console.log('Size: ' + size);
 }
 
 function setUpSizing() {
-  let windowWidth = window.innerWidth;
-  let windowHeight = window.innerHeight;
-  document.getElementById("middle").style.width = windowHeight+ "px";
-  document.getElementById("middle").style.height = windowHeight+ "px";
-  let a = (windowWidth - windowHeight) / 2;
-  document.getElementById("left").style.width = a + "px";
-  document.getElementById("left").style.height = windowHeight+ "px";
-  document.getElementById("right").style.width = a + "px";
-  document.getElementById("right").style.height = windowHeight+ "px";
+  let { width, height } = document
+    .getElementById('canvas-cont')
+    .getBoundingClientRect();
+  let canvasSize = Math.min(width, height) * 0.9;
+  document.getElementById('game-canvas').style.width = canvasSize + 'px';
+  document.getElementById('game-canvas').style.height = canvasSize + 'px';
+  // let windowWidth = window.innerWidth;
+  // let windowHeight = window.innerHeight;
+  // document.getElementById('middle').style.width = windowHeight + 'px';
+  // document.getElementById('middle').style.height = windowHeight + 'px';
+  // let a = (windowWidth - windowHeight) / 2;
+  // document.getElementById('left').style.width = a + 'px';
+  // document.getElementById('left').style.height = windowHeight + 'px';
+  // document.getElementById('right').style.width = a + 'px';
+  // document.getElementById('right').style.height = windowHeight + 'px';
 }
 
 function main() {
