@@ -6,7 +6,7 @@ const BAD_SQUARE_VALUE = -2;
 
 // WASD
 const W_KEY = 87;
-const A_KEY = 67;
+const A_KEY = 65;
 const S_KEY = 83;
 const D_KEY = 68;
 

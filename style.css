@@ -96,9 +96,18 @@ canvas {
   margin: 10%;
 }
 
+#win-message {
+  text-align: center;
+  color: white;
+  width: auto;
+  margin: 15%;
+  font-size: 3vmin;
+}
+
 #about {
   text-align: center;
-  width: 100%;
+  color: white;
+  width: auto;
   margin: 5%;
   font-size: 4vmin;
 }

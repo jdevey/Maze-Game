@@ -13,25 +13,10 @@ function update(gameState, timeStamp) {
   }
 }
 
-let gameInput = (function() {
-  function Keyboard() {
-    let that = {
-      keys: new Set()
-    }
-    function keyDown(e) {
-      that.keys.add(e.keyCode);
-    }
-    function keyUp(e) {
-      that.keys.delete(e.keyCode);
-    }
-    window.addEventListener('keydown', keyDown);
-    window.addEventListener('keyup', keyUp);
-
-    return that;
-  }
-
-  return {Keyboard: Keyboard};
-}());
+function clearListeners(node) {
+  let copy = node.cloneNode(true);
+  node.parentNode.replaceChild(copy, node);
+}
 
 function startNewGame() {
   // TODO show old scores
@@ -40,7 +25,11 @@ function startNewGame() {
   let edges = generateRandomMaze(size);
   let gameState = new GameState(edges, size);
 
-  document.getElementById('size-form').addEventListener('submit', endGame);
+  let sizeForm = document.getElementById('size-form');
+  //clearListeners(sizeForm);
+  sizeForm.addEventListener('submit', endGame);
+  //sizeForm.addEventListener('submit', event => event.preventDefault());
+  document.getElementById('win-message').innerHTML = '';
 
   let input = gameInput.Keyboard();
 
@@ -50,24 +39,24 @@ function startNewGame() {
     handleInput(gameState, input);
     update(gameState, timeStamp);
     render(gameState);
-    if (!gameState.gameOver) { // TODO win detection
+    if (!gameState.gameOver) {
       requestAnimationFrame(gameLoop);
-    }
-    else {
+    } else {
       endGame();
     }
   }
 
-  function endGame() {
+  function endGame(event) {
+    //event.preventDefault();
     // Clean up event listeners
-    document.getElementById('size-form').removeEventListener('submit', endGame);
+    let sizeForm = document.getElementById('size-form');
+    sizeForm.removeEventListener('submit', endGame);
     input.removeEventListeners();
-
-    // TODO show win message if game is won
 
     // TODO persist score
 
     // Return false so that page does not re-render
+    //sizeForm.addEventListener('submit', startNewGame);
     return false;
   }
 }
@@ -83,9 +72,7 @@ function setUpSizing() {
 
 function main() {
   setUpSizing();
-  // while (true) {
-    startNewGame();
-  // }
+  startNewGame();
 }
 
 if (document.readyState === 'loading') {
