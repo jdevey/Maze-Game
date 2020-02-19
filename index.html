@@ -39,8 +39,8 @@
     <!-- Right segment -->
     <div class="segs left-or-right right">
       <div id="sizes" class="center-container">
-        <form id="size-form">
-          <!-- <form id="size-form" onsubmit="return false;"> -->
+        <!-- <form id="size-form"> -->
+          <form id="size-form" onsubmit="clearSizeForm(); startNewGame(this.value); return false;">
           <div class="size-item">
             <input type="radio" name="size" value="2" checked />
             <p class="size">2 x 2</p>

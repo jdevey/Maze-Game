@@ -13,7 +13,8 @@ function update(gameState, timeStamp) {
   }
 }
 
-function clearListeners(node) {
+function clearSizeForm() {
+  let node = document.getElementById('size-form');
   let copy = node.cloneNode(true);
   node.parentNode.replaceChild(copy, node);
 }
@@ -25,16 +26,16 @@ function startNewGame() {
   let edges = generateRandomMaze(size);
   let gameState = new GameState(edges, size);
 
-  let sizeForm = document.getElementById('size-form');
+  //let sizeForm = document.getElementById('size-form');
   //clearListeners(sizeForm);
-  let clickAction =  e => {
-    e.preventDefault();
-    endGame();
-    startNewGame();
-    return false;
-  };
+  // let clickAction =  e => {
+  //   // e.preventDefault();
+  //   // endGame();
+  //   startNewGame();
+  //   return false;
+  // };
 
-  sizeForm.addEventListener('submit', clickAction);
+  //sizeForm.addEventListener('submit', clickAction);
   //sizeForm.addEventListener('submit', event => event.preventDefault());
   document.getElementById('win-message').innerHTML = '';
 
