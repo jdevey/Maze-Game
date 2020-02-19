@@ -6,7 +6,11 @@ function startOver() {
 
 function update(gameState, timeStamp) {
   gameState.currentTime = timeStamp;
-  // TODO handle end of game
+  let size = gameState.size;
+  if (gameState.pos.x == size - 1 && gameState.pos.y == size - 1) {
+    gameState.endGame();
+    gameState.playerHasWon = true;
+  }
 }
 
 let gameInput = (function() {
@@ -36,9 +40,6 @@ function startNewGame() {
   let edges = generateRandomMaze(size);
   let gameState = new GameState(edges, size);
 
-  // Return false so that page does not re-render
-  let endGame = () => false & gameState.endGame();
-
   document.getElementById('size-form').addEventListener('submit', endGame);
 
   let input = gameInput.Keyboard();
@@ -49,16 +50,26 @@ function startNewGame() {
     handleInput(gameState, input);
     update(gameState, timeStamp);
     render(gameState);
-    if (gameState.gameOver) { // TODO win detection
+    if (!gameState.gameOver) { // TODO win detection
       requestAnimationFrame(gameLoop);
+    }
+    else {
+      endGame();
     }
   }
 
-  // Clean up event listeners
-  document.getElementById('size-form').removeEventListener('submit', endGame);
-  //input.removeEventListeners();
+  function endGame() {
+    // Clean up event listeners
+    document.getElementById('size-form').removeEventListener('submit', endGame);
+    input.removeEventListeners();
 
-  // TODO persist score
+    // TODO show win message if game is won
+
+    // TODO persist score
+
+    // Return false so that page does not re-render
+    return false;
+  }
 }
 
 function setUpSizing() {

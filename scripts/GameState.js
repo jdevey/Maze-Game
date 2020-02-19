@@ -18,6 +18,7 @@ class GameState {
     this.breadcrumbsToggled = false;
     this.pathToggled = false;
     this.gameOver = false;
+    this.playerHasWon = false;
   }
 
   travelToSquare(x, y) {
