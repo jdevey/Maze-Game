@@ -65,4 +65,6 @@ function handleInput(gameState, input) {
   if (keys.has(H_KEY)) {
     gameState.hintToggled = !gameState.hintToggled;
   }
+
+  keys.clear();
 }

@@ -21,13 +21,20 @@ function clearListeners(node) {
 function startNewGame() {
   // TODO show old scores
 
-  size = parseInt(document.querySelector('input[name="size"]:checked').value);
+  let size = parseInt(document.querySelector('input[name="size"]:checked').value);
   let edges = generateRandomMaze(size);
   let gameState = new GameState(edges, size);
 
   let sizeForm = document.getElementById('size-form');
   //clearListeners(sizeForm);
-  sizeForm.addEventListener('submit', endGame);
+  let clickAction =  e => {
+    e.preventDefault();
+    endGame();
+    startNewGame();
+    return false;
+  };
+
+  sizeForm.addEventListener('submit', clickAction);
   //sizeForm.addEventListener('submit', event => event.preventDefault());
   document.getElementById('win-message').innerHTML = '';
 
@@ -50,7 +57,7 @@ function startNewGame() {
     //event.preventDefault();
     // Clean up event listeners
     let sizeForm = document.getElementById('size-form');
-    sizeForm.removeEventListener('submit', endGame);
+    sizeForm.removeEventListener('submit', clickAction);
     input.removeEventListeners();
 
     // TODO persist score
