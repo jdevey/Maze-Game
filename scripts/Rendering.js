@@ -140,6 +140,9 @@ function render(gameState) {
   let size = gameState.size;
   let cellSize = canvasSize / size;
 
+  document.getElementById("score").innerHTML = gameState.score + " points";
+  document.getElementById("time").innerHTML = gameState.getElapsedSeconds() + " seconds";
+
   context.clearRect(0, 0, canvasSize, canvasSize);
   renderMazeOutline(context, size, cellSize, gameState.edges);
   renderStart(context, cellSize, 0, 0);

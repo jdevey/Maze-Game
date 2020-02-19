@@ -55,6 +55,13 @@ function startNewGame() {
   }
 
   function endGame(event) {
+    let size = gameState.size;
+    let seconds = gameState.getElapsedSeconds();
+    let score = gameState.score;
+    let s = `${size}x${size} maze, ${seconds} seconds, ${score} points`;
+    let scores = JSON.parse(localStorage.getItem('scores'));
+    scores.push(s);
+    localStorage.setItem('scores', JSON.stringify(scores));
     //event.preventDefault();
     // Clean up event listeners
     //let sizeForm = document.getElementById('size-form');
@@ -79,6 +86,16 @@ function setUpSizing() {
 }
 
 function main() {
+  if (localStorage.getItem("scores") === null) {
+    localStorage.setItem('scores', JSON.stringify([]));
+  }
+  items = JSON.parse(localStorage.getItem('scores'));
+  for (let i = 0; i < items.length; ++i) {
+    let h4 = document.createElement('h4');
+    h4.innerHTML = items[i];
+    document.getElementById('score-drop-area').appendChild(h4);
+  }
+  // TODO render
   setUpSizing();
   startNewGame();
 }
