@@ -4,22 +4,30 @@ function startOver() {
   shouldStartNewGame = true;
 }
 
-function update(gameState, elapsedTime) {
-  for (let i = gameEvents.length - 1; i > -1; --i) {
-    let event = gameEvents[i];
-    event.prevTime = event.currTime;
-    event.currTime = elapsedTime;
-    // Remove event
-    if (event.lastLoop) {
-      gameEvents.splice(i, 1);
-    } else if (
-      event.currTime - event.origTime >=
-      event.interval * event.count
-    ) {
-      event.lastLoop = true;
-    }
-  }
+function update(gameState, timeStamp) {
+  gameState.currentTime = timeStamp;
+  // TODO handle end of game
 }
+
+let gameInput = (function() {
+  function Keyboard() {
+    let that = {
+      keys: new Set()
+    }
+    function keyDown(e) {
+      that.keys.add(e.keyCode);
+    }
+    function keyUp(e) {
+      that.keys.delete(e.keyCode);
+    }
+    window.addEventListener('keydown', keyDown);
+    window.addEventListener('keyup', keyUp);
+
+    return that;
+  }
+
+  return {Keyboard: Keyboard};
+}());
 
 function startNewGame() {
   // TODO show old scores
@@ -33,22 +41,22 @@ function startNewGame() {
 
   document.getElementById('size-form').addEventListener('submit', endGame);
 
-  input = new Input();
+  let input = gameInput.Keyboard();
 
   gameLoop(performance.now());
 
-  function gameLoop(elapsedTime) {
-    handleInput(gameState);
-    update(gameState, elapsedTime);
+  function gameLoop(timeStamp) {
+    handleInput(gameState, input);
+    update(gameState, timeStamp);
     render(gameState);
-    if (!gameState.gameOver) { // TODO win detection
+    if (gameState.gameOver) { // TODO win detection
       requestAnimationFrame(gameLoop);
     }
   }
 
   // Clean up event listeners
   document.getElementById('size-form').removeEventListener('submit', endGame);
-  input.removeEventListeners();
+  //input.removeEventListeners();
 
   // TODO persist score
 }
@@ -64,9 +72,9 @@ function setUpSizing() {
 
 function main() {
   setUpSizing();
-  while (true) {
+  // while (true) {
     startNewGame();
-  }
+  // }
 }
 
 if (document.readyState === 'loading') {

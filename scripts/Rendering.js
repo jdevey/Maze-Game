@@ -32,14 +32,14 @@ function renderMazeOutline(context, size, cellSize, edges) {
 function renderPlayer(context, cellSize, x, y) {
   context.save();
   context.fillStyle = 'blue';
-  context.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  context.fillRect(x * cellSize + cellSize / 4, y * cellSize + cellSize / 4, cellSize / 2, cellSize / 2);
   context.restore();
 }
 
 function renderGoal(context, cellSize, x, y) {
   context.save();
   context.fillStyle = 'green';
-  context.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  context.fillRect(x * cellSize + cellSize / 4, y * cellSize + cellSize / 4, cellSize / 2, cellSize / 2);
   context.restore();
 }
 

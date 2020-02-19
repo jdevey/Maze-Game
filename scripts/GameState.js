@@ -53,10 +53,13 @@ class GameState {
     let paths = [];
     let size = this.size;
     for (let i = 0; i < size; ++i) {
-      paths.push(new Array(size).fill(new Point(-1, -1)));
+      paths.push([]);
+      for (let j = 0; j < size; ++j) {
+        paths[i].push(new Point(-1, -1));
+      }
     }
-    paths[size - 1][size - 1].x = 0;
-    paths[size - 1][size - 1].y = 0;
+    paths[size - 1][size - 1].x = -1;
+    paths[size - 1][size - 1].y = -1;
     let vis = new CustomSet();
     let begin = new Point(size - 1, size - 1);
     let q = [begin];
@@ -71,9 +74,15 @@ class GameState {
         let newX = top.x + direc.x;
         let newY = top.y + direc.y;
         let p = new Point(newX, newY);
-        if (isValidCoord(size, p) && !vis.has(p)) {
+        if (
+          isValidCoord(size, p) &&
+          edgeExists(
+            edges,
+            new Edge(top.y * size + top.x, newY * size + newX)
+          ) &&
+          !vis.has(p)
+        ) {
           q.push(p);
-          vis.add(p);
           paths[newY][newX].x = top.x;
           paths[newY][newX].y = top.y;
         }
@@ -104,13 +113,13 @@ class GameState {
         if (this.perfectPath.has(base)) {
           continue;
         }
-        for (let k = 0; k < size; ++k) {
+        for (let k = 0; k < 4; ++k) {
           let direc = direcs[k];
           let newX = i + direc.x;
           let newY = j + direc.y;
           let p = new Point(newX, newY);
           if (isValidCoord(size, p) && this.perfectPath.has(p)) {
-            oneOffSquares.add(p);
+            oneOffSquares.add(base);
           }
         }
       }
@@ -122,11 +131,9 @@ class GameState {
   getSquarePointValue(point) {
     if (this.perfectPath.has(point)) {
       return PERFECT_SQUARE_VALUE;
-    }
-    else if (this.oneOffPath.has(point)) {
+    } else if (this.oneOffPath.has(point)) {
       return ONE_OFF_SQUARE_VALUE;
-    }
-    else {
+    } else {
       return BAD_SQUARE_VALUE;
     }
   }

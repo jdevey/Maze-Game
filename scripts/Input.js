@@ -1,28 +1,28 @@
-class Input {
-  constructor() {
-    // Timestamps not needed
-    this.keys = new Set();
-    window.addEventListener('keydown', keyDown);
-    window.addEventListener('keyup', keyUp);
-  }
+// class Input {
+//   constructor() {
+//     // Timestamps not needed
+//     this.keys = new Set();
+//     window.addEventListener('keydown', this.keyDown);
+//     window.addEventListener('keyup', this.keyUp);
+//   }
 
-  removeEventListeners() {
-    window.removeEventListener('keyup', input.keyUp);
-    window.removeEventListener('keydown', input.keyDown);
-  }
+//   removeEventListeners() {
+//     window.removeEventListener('keyup', this.keyUp);
+//     window.removeEventListener('keydown', this.keyDown);
+//   }
 
-  keyDown(e) {
-    this.keys.add(e.keyCode);
-  }
+//   keyDown(e) {
+//     this.keys.add(e.keyCode);
+//   }
 
-  keyUp(e) {
-    this.keys.delete(e.keyCode);
-  }
+//   keyUp(e) {
+//     this.keys.delete(e.keyCode);
+//   }
 
-  isKeyPressed(c) {
-    return this.keys.has(c);
-  }
-}
+//   isKeyPressed(c) {
+//     return this.keys.has(c);
+//   }
+// }
 
 function handleInput(gameState, input) {
   let keys = input.keys;
@@ -34,7 +34,7 @@ function handleInput(gameState, input) {
     let newY = y - 1;
     let newX = x;
     let p = new Point(newX, newY);
-    let e = new Edge(x * size + y, newY * size + newX);
+    let e = new Edge(y * size + x, newY * size + newX);
     if (isValidCoord(gameState.size, p) && edgeExists(gameState.edges, e)) {
       --gameState.pos.y;
     }
@@ -44,7 +44,7 @@ function handleInput(gameState, input) {
     let newY = y + 1;
     let newX = x;
     let p = new Point(newX, newY);
-    let e = new Edge(x * size + y, newY * size + newX);
+    let e = new Edge(y * size + x, newY * size + newX);
     if (isValidCoord(gameState.size, p) && edgeExists(gameState.edges, e)) {
       --gameState.pos.y;
     }
