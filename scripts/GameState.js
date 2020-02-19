@@ -12,6 +12,7 @@ class GameState {
     this.startTime = performance.now();
     this.currentTime = this.gameStartTime;
     this.score = 0;
+    this.traveledArray = [];
     this.traveledSquares = new CustomSet();
     this.traveledSquares.add(new Point(0, 0));
     this.hintToggled = false;
@@ -29,12 +30,13 @@ class GameState {
     if (!this.traveledSquares.has(point)) {
       this.score += this.getSquarePointValue(point);
       this.traveledSquares.add(point);
+      this.traveledArray.push(point);
     }
     this.pos = point;
   }
 
   getHintSquare() {
-    return this.finishPaths[this.pos.y][this.pos.x];
+    return this.finishPath[this.pos.y][this.pos.x];
   }
 
   getPathToFinish() {
@@ -42,8 +44,8 @@ class GameState {
     let curr = new Point(this.pos.x, this.pos.y);
     let finish = new Point(-1, -1);
     while (!curr.equals(finish)) {
-      finishPath.add(curr);
-      curr = this.finishPaths[curr.y][curr.x];
+      finishPath.push(curr);
+      curr = this.finishPath[curr.y][curr.x];
     }
     return finishPath;
   }

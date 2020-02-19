@@ -57,9 +57,9 @@ function startNewGame() {
   function endGame(event) {
     //event.preventDefault();
     // Clean up event listeners
-    let sizeForm = document.getElementById('size-form');
-    sizeForm.removeEventListener('submit', clickAction);
-    input.removeEventListeners();
+    //let sizeForm = document.getElementById('size-form');
+    //sizeForm.removeEventListener('submit', clickAction);
+    //input.removeEventListeners();
 
     // TODO persist score
 
