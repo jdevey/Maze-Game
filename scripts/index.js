@@ -24,14 +24,10 @@ function clearSizeForm() {
 function startNewGame(size) {
   let edges = generateRandomMaze(size);
   let gameState = new GameState(edges, size);
-
   document.getElementById('win-message').innerHTML = '';
 
-  let listeners = [];
-  // addEventListeners();
-
   let input = gameInput.Keyboard();
-
+  addCleanupListeners();
   gameLoop(performance.now());
 
   function gameLoop(timeStamp) {
@@ -41,42 +37,39 @@ function startNewGame(size) {
     if (!gameState.gameOver) {
       requestAnimationFrame(gameLoop);
     } else {
-      endGame();
+      if (gameState.playerHasWon) {
+        recordGame();
+      }
     }
   }
 
-  function addEventListeners() {
+  function cleanup() {
+    gameState.gameOver = true;
     let btns = document.getElementsByClassName('size-item');
     for (let i = 0; i < btns.length; ++i) {
-      let btnSize = parseInt(btns[i].getAttribute('data-size'));
-      let listener = () => {
-        endGame(btnSize);
-      };
-      listeners.push(listener);
-      btns[i].addEventListener('click', listener);
+      btns[i].removeEventListener('click', cleanup);
     }
+    input.removeEventListeners();
   }
 
-  function removeEventListeners() {
+  function addCleanupListeners() {
     let btns = document.getElementsByClassName('size-item');
     for (let i = 0; i < btns.length; ++i) {
-      btns[i].removeEventListener('click', listeners[i]);
+      btns[i].addEventListener('click', cleanup);
     }
   }
 
-  function endGame(newSize) {
-    newSize = newSize || gameState.size;
+  function recordGame() {
     let size = gameState.size;
     let seconds = gameState.getElapsedSeconds();
     let score = gameState.score;
+    cleanup();
     if (gameState.playerHasWon) {
       let s = `${size}x${size} maze, ${seconds} seconds, ${score} points`;
       let scores = JSON.parse(localStorage.getItem('scores'));
       scores.push(s);
       localStorage.setItem('scores', JSON.stringify(scores));
     }
-    removeEventListeners();
-    addEventListeners();
   }
 }
 
@@ -84,11 +77,9 @@ function addNewGameEventListeners() {
   let btns = document.getElementsByClassName('size-item');
   for (let i = 0; i < btns.length; ++i) {
     let btnSize = parseInt(btns[i].getAttribute('data-size'));
-    let listener = () => {
+    btns[i].addEventListener('click', () => {
       startNewGame(btnSize);
-    };
-    listeners.push(listener);
-    btns[i].addEventListener('click', listener);
+    });
   }
 }
 
@@ -112,6 +103,7 @@ function main() {
     document.getElementById('score-drop-area').appendChild(h4);
   }
   setUpSizing();
+  addNewGameEventListeners();
   startNewGame(2);
 }
 

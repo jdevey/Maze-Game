@@ -149,7 +149,6 @@ function render(gameState) {
   context.clearRect(0, 0, canvasSize, canvasSize);
   renderMazeOutline(context, size, cellSize, gameState.edges);
   renderStart(context, cellSize, 0, 0);
-  renderGoal(context, cellSize, size - 1, size - 1);
 
   if (gameState.breadcrumbsToggled) {
     let crumbs = gameState.traveledArray;
@@ -170,6 +169,7 @@ function render(gameState) {
     renderHint(context, cellSize, next.x, next.y);
   }
 
+  renderGoal(context, cellSize, size - 1, size - 1);
   renderPlayer(context, cellSize, gameState.pos.x, gameState.pos.y);
 
   if (gameState.gameOver && gameState.playerHasWon) {

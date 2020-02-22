@@ -29,8 +29,8 @@
     <!-- Middle segment -->
     <div id="middle" class="segs">
       <div id="score-time-bar">
-        <span class="scoreboard" id="score">Score</span>
-        <span class="scoreboard" id="time">Time</span>
+        <div class="scoreboard" id="score">0 points</div>
+        <div class="scoreboard" id="time">0 seconds</div>
       </div>
       <div id="canvas-cont" class="center-container">
         <canvas id="game-canvas"></canvas>
@@ -41,11 +41,21 @@
       <div class="center-container full-width">
         <div id="size-buttons">
           <h2 id="size-text-title">Start New Game:</h2>
-          <button type="button" class="size-item" data-size="2"><h2>2 x 2</h2></button>
-          <button type="button" class="size-item" data-size="5"><h2>5 x 5</h2></button>
-          <button type="button" class="size-item" data-size="10"><h2>10 x 10</h2></button>
-          <button type="button" class="size-item" data-size="15"><h2>15 x 15</h2></button>
-          <button type="button" class="size-item" data-size="20"><h2>20 x 20</h2></button>
+          <button type="button" class="size-item" data-size="2">
+            <h2>2 x 2</h2>
+          </button>
+          <button type="button" class="size-item" data-size="5">
+            <h2>5 x 5</h2>
+          </button>
+          <button type="button" class="size-item" data-size="10">
+            <h2>10 x 10</h2>
+          </button>
+          <button type="button" class="size-item" data-size="15">
+            <h2>15 x 15</h2>
+          </button>
+          <button type="button" class="size-item" data-size="20">
+            <h2>20 x 20</h2>
+          </button>
         </div>
       </div>
       <h2 id="win-message"></h2>
