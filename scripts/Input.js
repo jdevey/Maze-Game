@@ -1,3 +1,5 @@
+'use strict';
+
 let gameInput = (function() {
   function Keyboard() {
     let that = {
@@ -6,7 +8,7 @@ let gameInput = (function() {
         window.removeEventListener('keydown', keyDown);
         window.removeEventListener('keyup', keyUp);
       }
-    }
+    };
     function keyDown(e) {
       that.keys.add(e.keyCode);
     }
@@ -19,15 +21,16 @@ let gameInput = (function() {
     return that;
   }
 
-  return {Keyboard: Keyboard};
-}());
+  return { Keyboard: Keyboard };
+})();
 
 function handleInput(gameState, input) {
   let keys = input.keys;
   let size = gameState.size;
   let x = gameState.pos.x;
   let y = gameState.pos.y;
-  var newY = y, newX = x;
+  var newY = y,
+    newX = x;
   // Go up
   if (keys.has(W_KEY) || keys.has(I_KEY) || keys.has(UP_KEY)) {
     newY = y - 1;

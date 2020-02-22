@@ -1,3 +1,5 @@
+'use strict';
+
 function swap(a, b) {
   [a, b] = [b, a];
 }
@@ -59,13 +61,13 @@ function generateRandomMaze(n) {
 
   adj.sort((a, b) => a.weight - b.weight);
 
-  sizes = new Array(total).fill(1);
-  reps = [];
+  let sizes = new Array(total).fill(1);
+  let reps = [];
   for (let i = 0; i < total; ++i) {
     reps.push(i);
   }
 
-  edges = new CustomSet();
+  let edges = new CustomSet();
 
   for (let i = 0; i < adj.length; ++i) {
     if (!same(reps, adj[i].to, adj[i].from)) {

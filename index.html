@@ -37,37 +37,19 @@
       </div>
     </div>
     <!-- Right segment -->
-    <div class="segs left-or-right right">
-      <div id="sizes" class="center-container">
-        <!-- <form id="size-form"> -->
-          <form id="size-form" onsubmit="clearSizeForm(); startNewGame(this.value); return false;">
-          <div class="size-item">
-            <input type="radio" name="size" value="2" checked />
-            <p class="size">2 x 2</p>
-          </div>
-          <div class="size-item">
-            <input type="radio" name="size" value="5" />
-            <p class="size">5 x 5</p>
-          </div>
-          <div class="size-item">
-            <input type="radio" name="size" value="10" />
-            <p class="size">10 x 10</p>
-          </div>
-          <div class="size-item">
-            <input type="radio" name="size" value="15" />
-            <p class="size">15 x 15</p>
-          </div>
-          <div class="size-item">
-            <input type="radio" name="size" value="20" />
-            <p class="size">20 x 20</p>
-          </div>
-          <div class="center-container">
-            <input type="submit" value="Start New Game" class="size-item" />
-          </div>
-        </form>
+    <div id="right" class="segs left-or-right">
+      <div class="center-container full-width">
+        <div id="size-buttons">
+          <h2 id="size-text-title">Start New Game:</h2>
+          <button type="button" class="size-item" data-size="2"><h2>2 x 2</h2></button>
+          <button type="button" class="size-item" data-size="5"><h2>5 x 5</h2></button>
+          <button type="button" class="size-item" data-size="10"><h2>10 x 10</h2></button>
+          <button type="button" class="size-item" data-size="15"><h2>15 x 15</h2></button>
+          <button type="button" class="size-item" data-size="20"><h2>20 x 20</h2></button>
+        </div>
       </div>
       <h2 id="win-message"></h2>
-      <div>
+      <div class="full-width">
         <h2 id="about">Created by Joel Devey</h2>
       </div>
     </div>

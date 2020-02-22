@@ -1,3 +1,5 @@
+'use strict';
+
 function renderWinMessage(gameState) {
   let size = gameState.size;
   let seconds = gameState.getElapsedSeconds();
@@ -90,8 +92,8 @@ function renderBreadcrumb(context, cellSize, x, y) {
   context.save();
   context.fillStyle = 'white';
   context.fillRect(
-    x * cellSize + cellSize * 3 / 8,
-    y * cellSize + cellSize * 3 / 8,
+    x * cellSize + (cellSize * 3) / 8,
+    y * cellSize + (cellSize * 3) / 8,
     cellSize / 4,
     cellSize / 4
   );
@@ -111,8 +113,8 @@ function renderHint(context, cellSize, x, y) {
   // context.fill();
   context.fillStyle = 'orange';
   context.fillRect(
-    x * cellSize + cellSize * 3 / 8,
-    y * cellSize + cellSize * 3 / 8,
+    x * cellSize + (cellSize * 3) / 8,
+    y * cellSize + (cellSize * 3) / 8,
     cellSize / 4,
     cellSize / 4
   );
@@ -123,8 +125,8 @@ function renderPath(context, cellSize, x, y) {
   context.save();
   context.fillStyle = 'yellow';
   context.fillRect(
-    x * cellSize + cellSize * 3 / 8,
-    y * cellSize + cellSize * 3 / 8,
+    x * cellSize + (cellSize * 3) / 8,
+    y * cellSize + (cellSize * 3) / 8,
     cellSize / 4,
     cellSize / 4
   );
@@ -140,31 +142,32 @@ function render(gameState) {
   let size = gameState.size;
   let cellSize = canvasSize / size;
 
-  document.getElementById("score").innerHTML = gameState.score + " points";
-  document.getElementById("time").innerHTML = gameState.getElapsedSeconds() + " seconds";
+  document.getElementById('score').innerHTML = gameState.score + ' points';
+  document.getElementById('time').innerHTML =
+    gameState.getElapsedSeconds() + ' seconds';
 
   context.clearRect(0, 0, canvasSize, canvasSize);
   renderMazeOutline(context, size, cellSize, gameState.edges);
   renderStart(context, cellSize, 0, 0);
   renderGoal(context, cellSize, size - 1, size - 1);
-  
+
+  if (gameState.breadcrumbsToggled) {
+    let crumbs = gameState.traveledArray;
+    for (let i = 0; i < crumbs.length; ++i) {
+      renderBreadcrumb(context, cellSize, crumbs[i].x, crumbs[i].y);
+    }
+  }
+
   if (gameState.pathToggled) {
     let path = gameState.getPathToFinish();
     for (let i = 0; i < path.length; ++i) {
       renderPath(context, cellSize, path[i].x, path[i].y);
     }
   }
-  
+
   if (gameState.hintToggled) {
     let next = gameState.getHintSquare();
     renderHint(context, cellSize, next.x, next.y);
-  }
-  
-  if (gameState.breadcrumbsToggled) {
-    let crumbs = gameState.traveledArray;
-    for (let i = 0; i < crumbs.length; ++i) {
-      renderBreadcrumb(context, cellSize, crumbs[i].x, crumbs[i].y);
-    }
   }
 
   renderPlayer(context, cellSize, gameState.pos.x, gameState.pos.y);

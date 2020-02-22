@@ -1,3 +1,5 @@
+'use strict';
+
 class GameState {
   constructor(edges, size) {
     // Constant or precomputed values
@@ -80,7 +82,7 @@ class GameState {
         if (
           isValidCoord(size, p) &&
           edgeExists(
-            edges,
+            this.edges,
             new Edge(top.y * size + top.x, newY * size + newX)
           ) &&
           !vis.has(p)

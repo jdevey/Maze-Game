@@ -13,17 +13,16 @@ body {
 }
 
 canvas {
-  display: block;
   background-color: rgba(255, 255, 255, 0.5);
-  /* background-color: white; */
+  display: block;
   border-style: solid;
   border-width: 2px;
   border-color: black;
 }
 
 .segs {
-  float: left;
   background-color: #202020;
+  float: left;
 }
 
 .left-or-right {
@@ -31,16 +30,16 @@ canvas {
   width: 25vw;
 }
 
-.right {
+#middle {
+  height: 100vh;
+  width: 50vw;
+}
+
+#right {
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-#middle {
-  height: 100vh;
-  width: 50vw;
 }
 
 .center-container {
@@ -50,16 +49,19 @@ canvas {
 }
 
 #canvas-cont {
+  box-sizing: border-box;
   background-image: url('./res/azTemple1.png');
   background-position: center;
   background-size: cover;
-  background-color: #B5BD89;
   width: 100%;
   height: 95%;
+  border-style: solid;
+  border-width: 0.5vmin;
+  border-color: #000080;
 }
 
 #score-time-bar {
-  background-color: #003300;
+  background-color: #000030;
   height: 5%;
   width: 100%;
   display: flex;
@@ -73,13 +75,6 @@ canvas {
   margin: 2vmin;
 }
 
-#sizes {
-  /* clear: both;
-  float: none;*/
-  /* display: block; */
-  width: 100%;
-}
-
 .size {
   color: white;
   font-size: 7vmin;
@@ -87,35 +82,56 @@ canvas {
   display: inline;
 }
 
-/* .size-item {
-  align-items: center;
-  display: block;
-} */
+.size-item {
+  border-color: #808080;
+  margin: 2%;
+  width: 50%;
+  border-width: 2%;
+  border-style: solid;
+}
 
-#size-form {
+#size-buttons {
   margin: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#size-text-title {
+  color: white;
+  text-align: center;
+  width: auto;
+  margin: 5%;
+  font-size: 3vmin;
 }
 
 #win-message {
-  text-align: center;
   color: white;
+  text-align: center;
   width: auto;
   margin: 15%;
   font-size: 3vmin;
 }
 
+.full-width {
+  width: 100%;
+}
+
 #about {
-  text-align: center;
   color: white;
+  text-align: center;
   width: auto;
-  margin: 5%;
-  font-size: 4vmin;
+  margin: 3%;
+  font-size: 3.5vmin;
 }
 
 #high-scores-text {
   color: white;
+  margin: 4%;
 }
 
 #score-drop-area {
   color: white;
+  margin: 4%;
 }

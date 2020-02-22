@@ -1,3 +1,5 @@
+'use strict';
+
 class CustomSet {
   constructor() {
     this.set = new Set();

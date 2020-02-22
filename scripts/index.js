@@ -1,3 +1,5 @@
+'use strict';
+
 var shouldStartNewGame = false;
 
 function startOver() {
@@ -19,25 +21,14 @@ function clearSizeForm() {
   node.parentNode.replaceChild(copy, node);
 }
 
-function startNewGame() {
-  // TODO show old scores
-
-  let size = parseInt(document.querySelector('input[name="size"]:checked').value);
+function startNewGame(size) {
   let edges = generateRandomMaze(size);
   let gameState = new GameState(edges, size);
 
-  //let sizeForm = document.getElementById('size-form');
-  //clearListeners(sizeForm);
-  // let clickAction =  e => {
-  //   // e.preventDefault();
-  //   // endGame();
-  //   startNewGame();
-  //   return false;
-  // };
-
-  //sizeForm.addEventListener('submit', clickAction);
-  //sizeForm.addEventListener('submit', event => event.preventDefault());
   document.getElementById('win-message').innerHTML = '';
+
+  let listeners = [];
+  // addEventListeners();
 
   let input = gameInput.Keyboard();
 
@@ -54,25 +45,50 @@ function startNewGame() {
     }
   }
 
-  function endGame(event) {
+  function addEventListeners() {
+    let btns = document.getElementsByClassName('size-item');
+    for (let i = 0; i < btns.length; ++i) {
+      let btnSize = parseInt(btns[i].getAttribute('data-size'));
+      let listener = () => {
+        endGame(btnSize);
+      };
+      listeners.push(listener);
+      btns[i].addEventListener('click', listener);
+    }
+  }
+
+  function removeEventListeners() {
+    let btns = document.getElementsByClassName('size-item');
+    for (let i = 0; i < btns.length; ++i) {
+      btns[i].removeEventListener('click', listeners[i]);
+    }
+  }
+
+  function endGame(newSize) {
+    newSize = newSize || gameState.size;
     let size = gameState.size;
     let seconds = gameState.getElapsedSeconds();
     let score = gameState.score;
-    let s = `${size}x${size} maze, ${seconds} seconds, ${score} points`;
-    let scores = JSON.parse(localStorage.getItem('scores'));
-    scores.push(s);
-    localStorage.setItem('scores', JSON.stringify(scores));
-    //event.preventDefault();
-    // Clean up event listeners
-    //let sizeForm = document.getElementById('size-form');
-    //sizeForm.removeEventListener('submit', clickAction);
-    //input.removeEventListeners();
+    if (gameState.playerHasWon) {
+      let s = `${size}x${size} maze, ${seconds} seconds, ${score} points`;
+      let scores = JSON.parse(localStorage.getItem('scores'));
+      scores.push(s);
+      localStorage.setItem('scores', JSON.stringify(scores));
+    }
+    removeEventListeners();
+    addEventListeners();
+  }
+}
 
-    // TODO persist score
-
-    // Return false so that page does not re-render
-    //sizeForm.addEventListener('submit', startNewGame);
-    return false;
+function addNewGameEventListeners() {
+  let btns = document.getElementsByClassName('size-item');
+  for (let i = 0; i < btns.length; ++i) {
+    let btnSize = parseInt(btns[i].getAttribute('data-size'));
+    let listener = () => {
+      startNewGame(btnSize);
+    };
+    listeners.push(listener);
+    btns[i].addEventListener('click', listener);
   }
 }
 
@@ -86,18 +102,17 @@ function setUpSizing() {
 }
 
 function main() {
-  if (localStorage.getItem("scores") === null) {
+  if (localStorage.getItem('scores') === null) {
     localStorage.setItem('scores', JSON.stringify([]));
   }
-  items = JSON.parse(localStorage.getItem('scores'));
+  let items = JSON.parse(localStorage.getItem('scores'));
   for (let i = 0; i < items.length; ++i) {
     let h4 = document.createElement('h4');
     h4.innerHTML = items[i];
     document.getElementById('score-drop-area').appendChild(h4);
   }
-  // TODO render
   setUpSizing();
-  startNewGame();
+  startNewGame(2);
 }
 
 if (document.readyState === 'loading') {

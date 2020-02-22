@@ -1,3 +1,5 @@
+'use strict';
+
 const DEFAULT_SIZE = 2;
 
 const PERFECT_SQUARE_VALUE = 5;
@@ -23,6 +25,6 @@ const DOWN_KEY = 40;
 const RIGHT_KEY = 39;
 
 // Hints
-const H_KEY = 72
+const H_KEY = 72;
 const B_KEY = 66;
 const P_KEY = 80;
