@@ -1,6 +1,6 @@
 'use strict';
 
-const DEFAULT_SIZE = 2;
+const DEFAULT_SIZE = 5;
 
 const PERFECT_SQUARE_VALUE = 5;
 const ONE_OFF_SQUARE_VALUE = -1;
@@ -28,3 +28,7 @@ const RIGHT_KEY = 39;
 const H_KEY = 72;
 const B_KEY = 66;
 const P_KEY = 80;
+
+const HERO_IMG_NAME = './res/adventurer-1.png';
+const ARROW_IMG_NAME = './res/arrow-1.png';
+const COIN_IMG_NAME = './res/golden-coin-1.png';

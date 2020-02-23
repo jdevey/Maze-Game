@@ -162,7 +162,7 @@ function main() {
   setUpScores();
   setUpSizing();
   addNewGameEventListeners();
-  startNewGame(5);
+  startNewGame(DEFAULT_SIZE);
 }
 
 if (document.readyState === 'loading') {
@@ -170,3 +170,7 @@ if (document.readyState === 'loading') {
 } else {
   main();
 }
+
+window.onerror = function(message) {
+  console.log(message);
+};

@@ -8,13 +8,14 @@ class GameState {
     this.finishPath = this.computePathsToFinish();
     this.perfectPath = this.computePerfectPathSquares();
     this.oneOffPath = this.computeOneOffPathSquares();
+    this.images = this.createImageMap();
 
     // State
     this.pos = new Point(0, 0);
     this.startTime = performance.now();
     this.currentTime = this.gameStartTime;
     this.score = 0;
-    this.traveledArray = [];
+    this.traveledArray = [new Point(0, 0)];
     this.traveledSquares = new CustomSet();
     this.traveledSquares.add(new Point(0, 0));
     this.hintToggled = false;
@@ -22,6 +23,17 @@ class GameState {
     this.pathToggled = false;
     this.gameOver = false;
     this.playerHasWon = false;
+  }
+
+  createImageMap() {
+    let images = {};
+    let imgNames = [HERO_IMG_NAME, ARROW_IMG_NAME, COIN_IMG_NAME];
+    for (let i = 0; i < imgNames.length; ++i) {
+      let img = new Image();
+      img.src = imgNames[i];
+      images[imgNames[i]] = img;
+    }
+    return images;
   }
 
   travelToSquare(x, y) {

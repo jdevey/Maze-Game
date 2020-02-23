@@ -19,7 +19,7 @@ function drawMazeLine(context, cellSize, x1, y1, x2, y2) {
 function renderMazeOutline(context, size, cellSize, edges) {
   context.save();
   context.strokeStyle = 'black';
-  context.lineWidth = 4;
+  context.lineWidth = cellSize / 10;
   context.lineCap = 'round';
   for (let i = 0; i < size; ++i) {
     for (let j = 0; j < size; ++j) {
@@ -78,50 +78,57 @@ function renderGoal(context, cellSize, x, y) {
 
 function renderBreadcrumb(context, cellSize, x, y) {
   context.save();
-  context.fillStyle = 'white';
-  context.fillRect(
-    x * cellSize + (cellSize * 3) / 8,
-    y * cellSize + (cellSize * 3) / 8,
-    cellSize / 4,
-    cellSize / 4
-  );
+  let cx = x * cellSize + cellSize / 2;
+  let cy = y * cellSize + cellSize / 2;
+  let gradient = context.createRadialGradient(cx, cy, 0, cx, cy, cellSize / 3);
+  gradient.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+  gradient.addColorStop(0, 'rgba(0, 0, 255, 0.5)');
+  context.fillStyle = gradient;
+  context.beginPath();
+  context.ellipse(cx, cy, cellSize / 3, cellSize / 3, 0, 0, Math.PI * 2);
+  context.fill();
   context.restore();
 }
 
-function renderHint(context, cellSize, x, y) {
+function renderHint(context, cellSize, x, y, img, rotation) {
   context.save();
-  // let cx = x * cellSize + cellSize / 2;
-  // let cy = y * cellSize + cellSize / 2;
-  // let gradient = context.createRadialGradient(cx, cy, cellSize / 2, cx, cy, cellSize / 2);
-  // gradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
-  // gradient.addColorStop(1, 'rgba(0, 255, 0, 0.5)');
-  // context.fillStyle = gradient;
-  // context.beginPath();
-  // context.ellipse(cx, cy, cellSize / 2, cellSize / 2, 0, 0, Math.PI * 2);
-  // context.fill();
-  context.fillStyle = 'orange';
-  context.fillRect(
-    x * cellSize + (cellSize * 3) / 8,
-    y * cellSize + (cellSize * 3) / 8,
-    cellSize / 4,
-    cellSize / 4
-  );
+  context.translate(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2);
+  context.rotate(rotation);
+  context.drawImage(img, 0, 0);
   context.restore();
 }
 
 function renderPath(context, cellSize, x, y) {
   context.save();
-  context.fillStyle = 'yellow';
-  context.fillRect(
-    x * cellSize + (cellSize * 3) / 8,
-    y * cellSize + (cellSize * 3) / 8,
-    cellSize / 4,
-    cellSize / 4
-  );
+  let cx = x * cellSize + cellSize / 2;
+  let cy = y * cellSize + cellSize / 2;
+  let gradient = context.createRadialGradient(cx, cy, 0, cx, cy, cellSize / 3);
+  gradient.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+  gradient.addColorStop(0, 'rgba(255, 0, 0, 0.5)');
+  context.fillStyle = gradient;
+  context.beginPath();
+  context.ellipse(cx, cy, cellSize / 3, cellSize / 3, 0, 0, Math.PI * 2);
+  context.fill();
   context.restore();
 }
 
-// TODO render hint, breadcrumbs, path
+function getHintRotation(gameState) {
+  let next = gameState.getHintSquare();
+  let curr = gameState.pos;
+  if (next.x == curr.x) {
+    return next.y < curr.y ? -Math.PI / 2 : Math.PI / 2;
+  } else {
+    return next.x < curr.x ? Math.PI : 0;
+  }
+}
+
+function renderImg(context, cellSize, x, y, img, rotation) {
+  context.save();
+  context.translate(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2);
+  context.rotate(rotation);
+  context.drawImage(img, -cellSize / 2, -cellSize / 2, cellSize, cellSize);
+  context.restore();
+}
 
 function render(gameState) {
   let canvas = document.getElementById('game-canvas');
@@ -153,11 +160,34 @@ function render(gameState) {
 
   if (gameState.hintToggled) {
     let next = gameState.getHintSquare();
-    renderHint(context, cellSize, next.x, next.y);
+    if (!(next.x == size - 1 && next.y == size - 1)) {
+      renderImg(
+        context,
+        cellSize,
+        next.x,
+        next.y,
+        gameState.images[ARROW_IMG_NAME],
+        getHintRotation(gameState)
+      );
+    }
   }
 
-  renderGoal(context, cellSize, size - 1, size - 1);
-  renderPlayer(context, cellSize, gameState.pos.x, gameState.pos.y);
+  renderImg(
+    context,
+    cellSize,
+    size - 1,
+    size - 1,
+    gameState.images[COIN_IMG_NAME],
+    0
+  );
+  renderImg(
+    context,
+    cellSize,
+    gameState.pos.x,
+    gameState.pos.y,
+    gameState.images[HERO_IMG_NAME],
+    0
+  );
 
   if (gameState.gameOver && gameState.playerHasWon) {
     renderWinMessage(gameState);
