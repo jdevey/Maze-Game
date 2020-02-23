@@ -52,30 +52,6 @@ function renderMazeOutline(context, size, cellSize, edges) {
   context.restore();
 }
 
-function renderPlayer(context, cellSize, x, y) {
-  context.save();
-  context.fillStyle = 'blue';
-  context.fillRect(
-    x * cellSize + cellSize / 4,
-    y * cellSize + cellSize / 4,
-    cellSize / 2,
-    cellSize / 2
-  );
-  context.restore();
-}
-
-function renderGoal(context, cellSize, x, y) {
-  context.save();
-  context.fillStyle = 'green';
-  context.fillRect(
-    x * cellSize + cellSize / 4,
-    y * cellSize + cellSize / 4,
-    cellSize / 2,
-    cellSize / 2
-  );
-  context.restore();
-}
-
 function renderBreadcrumb(context, cellSize, x, y) {
   context.save();
   let cx = x * cellSize + cellSize / 2;
@@ -87,14 +63,6 @@ function renderBreadcrumb(context, cellSize, x, y) {
   context.beginPath();
   context.ellipse(cx, cy, cellSize / 3, cellSize / 3, 0, 0, Math.PI * 2);
   context.fill();
-  context.restore();
-}
-
-function renderHint(context, cellSize, x, y, img, rotation) {
-  context.save();
-  context.translate(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2);
-  context.rotate(rotation);
-  context.drawImage(img, 0, 0);
   context.restore();
 }
 
