@@ -1,11 +1,5 @@
 'use strict';
 
-var shouldStartNewGame = false;
-
-function startOver() {
-  shouldStartNewGame = true;
-}
-
 function update(gameState, timeStamp) {
   gameState.currentTime = timeStamp;
   let size = gameState.size;
@@ -65,10 +59,13 @@ function startNewGame(size) {
     let score = gameState.score;
     cleanup();
     if (gameState.playerHasWon) {
-      let s = `${size}x${size} maze, ${seconds} seconds, ${score} points`;
+      let s = `${seconds} seconds, ${score} points`;
       let scores = JSON.parse(localStorage.getItem('scores'));
-      scores.push(s);
+      let elemId = 'scores' + size;
+      let sizeScores = scores[elemId];
+      sizeScores.push(s);
       localStorage.setItem('scores', JSON.stringify(scores));
+      setScoresForSize(document.getElementById(elemId), size);
     }
   }
 }
@@ -92,19 +89,80 @@ function setUpSizing() {
   document.getElementById('game-canvas').height = canvasSize;
 }
 
-function main() {
-  if (localStorage.getItem('scores') === null) {
-    localStorage.setItem('scores', JSON.stringify([]));
+function initStorage() {
+  localStorage.setItem(
+    'scores',
+    JSON.stringify({
+      scores5: [],
+      scores10: [],
+      scores15: [],
+      scores20: []
+    })
+  );
+}
+
+function clearElemChildren(elem) {
+  let lastChild = elem.lastElementChild;
+  while (lastChild) {
+    elem.removeChild(lastChild);
+    lastChild = elem.lastElementChild;
   }
-  let items = JSON.parse(localStorage.getItem('scores'));
-  for (let i = 0; i < items.length; ++i) {
+}
+
+function setScoresForSize(elem, size) {
+  clearElemChildren(elem);
+  let scores = JSON.parse(localStorage.getItem('scores'));
+  let key = 'scores' + size;
+  let scoresArr = scores[key];
+  scoresArr.sort((a, b) => {
+    let s1a = a.indexOf(' ');
+    let s2a = a.indexOf(' ', s1a + 1);
+    let s3a = a.indexOf(' ', s2a + 1);
+    let s1b = b.indexOf(' ');
+    let s2b = b.indexOf(' ', s1b + 1);
+    let s3b = b.indexOf(' ', s2b + 1);
+    let an1 = parseInt(a.substr(0, s1a));
+    let an2 = parseInt(a.substr(s2a, s3a));
+    let bn1 = parseInt(b.substr(0, s1b));
+    let bn2 = parseInt(b.substr(s2b, s3b));
+    if (an1 == bn1) {
+      return bn2 - an2;
+    }
+    return an1 - bn1;
+  });
+  for (let i = 1; i <= 5; ++i) {
     let h4 = document.createElement('h4');
-    h4.innerHTML = items[i];
-    document.getElementById('score-drop-area').appendChild(h4);
+    h4.innerHTML = i + '. ' + (i > scoresArr.length ? '' : scoresArr[i - 1]);
+    elem.appendChild(h4);
   }
+}
+
+function setUpScores() {
+  if (localStorage.getItem('scores') === null) {
+    initStorage();
+  }
+  let dropArea = document.getElementById('score-drop-area');
+  let scores = JSON.parse(localStorage.getItem('scores'));
+  for (let sizeKey in scores) {
+    let size = parseInt(sizeKey.substring(6)); // position 6 to end of string
+    let sizeElem = document.createElement('div');
+    sizeElem.classList.add('size-score-area');
+    dropArea.appendChild(sizeElem);
+    let sizeLabel = document.createElement('h3');
+    sizeLabel.innerHTML = `${size} x ${size} High Scores:`;
+    sizeElem.appendChild(sizeLabel);
+    let sizeIndiv = document.createElement('div');
+    sizeIndiv.id = 'scores' + size;
+    sizeElem.appendChild(sizeIndiv);
+    setScoresForSize(sizeIndiv, size);
+  }
+}
+
+function main() {
+  setUpScores();
   setUpSizing();
   addNewGameEventListeners();
-  startNewGame(2);
+  startNewGame(5);
 }
 
 if (document.readyState === 'loading') {

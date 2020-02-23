@@ -76,18 +76,6 @@ function renderGoal(context, cellSize, x, y) {
   context.restore();
 }
 
-function renderStart(context, cellSize, x, y) {
-  context.save();
-  context.fillStyle = 'red';
-  context.fillRect(
-    x * cellSize + cellSize / 4,
-    y * cellSize + cellSize / 4,
-    cellSize / 2,
-    cellSize / 2
-  );
-  context.restore();
-}
-
 function renderBreadcrumb(context, cellSize, x, y) {
   context.save();
   context.fillStyle = 'white';
@@ -148,7 +136,6 @@ function render(gameState) {
 
   context.clearRect(0, 0, canvasSize, canvasSize);
   renderMazeOutline(context, size, cellSize, gameState.edges);
-  renderStart(context, cellSize, 0, 0);
 
   if (gameState.breadcrumbsToggled) {
     let crumbs = gameState.traveledArray;
